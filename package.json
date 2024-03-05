@@ -1,0 +1,23 @@
+{
+  "name": "@vault",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "dotenv -- turbo run build",
+    "dev": "dotenv -- turbo run dev",
+    "lint": "dotenv -- turbo run lint",
+    "format": "dotenv -- prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "react": "dotenv -- pnpm --filter=@vault/react",
+    "sdk": "dotenv -- pnpm --filter=@vault/sdk-core"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "acorn": "^8.11.3",
+    "dotenv-cli": "^7.3.0",
+    "eslint": "^8.57.0",
+    "turbo": "^1.12.4"
+  }
+}
