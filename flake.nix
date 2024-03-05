@@ -11,7 +11,7 @@
         buildInputs = with pkgs; [
           openssl
           nodejs_18
-          nodePackages.pnpmx
+          nodePackages.pnpm
         ];
        };
     });
