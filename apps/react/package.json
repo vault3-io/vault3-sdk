@@ -1,12 +1,21 @@
 {
-  "name": "@vault/react",
+  "name": "@vault/sdk-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dest/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite-node src/index.ts",
+    "build": "vite build",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@vault/sdk-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@vault/config": "workspace:*"
+  }
 }

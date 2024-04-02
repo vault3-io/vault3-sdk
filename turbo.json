@@ -14,6 +14,6 @@
     "start": {
       "cache": false
     },
-    "lint": {}
+    "test": {}
   }
 }
