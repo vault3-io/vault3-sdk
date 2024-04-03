@@ -15,6 +15,6 @@
 	},
 	"dependencies": {
 		"@types/web": "^0.0.138",
-		"tus-js-client": "^4.0.1"
+		"tus-js-client": "^4.1.0"
 	}
 }
