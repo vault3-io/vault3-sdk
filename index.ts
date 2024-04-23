@@ -1,5 +1,7 @@
 import tus, { DetailedError } from "tus-js-client";
 
+export * from "./src/public";
+
 function getUploadEndpointURL() {
     return "";
 }
