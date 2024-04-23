@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { Box, HStack, Icon, styled } from "@chakra-ui/react";
+import { Box, HStack, Icon } from "@chakra-ui/react";
 interface Props {
 	images: string[];
 }

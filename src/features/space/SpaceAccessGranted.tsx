@@ -1,4 +1,4 @@
-import { Box, space } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import {
 	MainCallToActionButton,
 	SecondaryCallToActionButton,
@@ -6,6 +6,8 @@ import {
 } from "../../components";
 import { SpaceTemplate } from "./SpaceTemplate";
 import { SpaceDocumentsSlider } from "./SpaceDocumentsSlider";
+import { DownloadFilesFromSpaceQuery } from "../../generated/graphql";
+import { blobToUrl } from "../../utils/io";
 
 interface SpaceAccessGrantedProps {
 	successCallToActionText?: string | null | undefined;
@@ -16,6 +18,8 @@ interface SpaceAccessGrantedProps {
 	fontColor?: string | null | undefined;
 	primaryColor?: string | null | undefined;
 	secondaryColor?: string | null | undefined;
+	files: DownloadFilesFromSpaceQuery["filesInSpace"];
+	downloadFiles: () => void;
 	// onPrimaryInteractionClick?: () => void;
 	// onSecondaryInteractionClick?: () => void;
 }
@@ -30,13 +34,20 @@ export function SpaceAccessGranted(props: SpaceAccessGrantedProps) {
 		fontColor,
 		primaryColor,
 		secondaryColor,
+		files,
+		downloadFiles,
 		// onPrimaryInteractionClick,
 		// onSecondaryInteractionClick,
 	} = props;
 
+	const images = files.map(({ download }) =>
+		blobToUrl(download.mime, download.content)
+	);
+
 	return (
 		<SpaceTemplate
 			title="Access Granted"
+			downloadFiles={downloadFiles}
 			description={
 				successCallToActionText || "Enjoy your exclusive experience!"
 			}
@@ -74,13 +85,7 @@ export function SpaceAccessGranted(props: SpaceAccessGrantedProps) {
 			primaryColor={primaryColor}
 			fontColor={fontColor}
 		>
-			<SpaceDocumentsSlider
-				images={[
-					"https://keen-slider.io/images/next.png",
-					"https://www.luelue.pl/pub/media/catalog/product/cache/50b84ec3e651e460d895eb9d2537ee0f/t/h/the-blind-girl-1856_1.jpg",
-					"https://niezlasztuka.net/wp-content/uploads/2016/04/ofelia.jpg",
-				]}
-			/>
+			<SpaceDocumentsSlider images={images} />
 		</SpaceTemplate>
 	);
 }

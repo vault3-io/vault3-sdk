@@ -150,6 +150,15 @@ export function TokenGateUnlock({ id: spaceId }: Props) {
 		},
 	});
 
+	const downloadAllFiles = () => {
+		downloadFiles.mutate({
+			files:
+				downloadedFiles.data?.map(({ download }) => {
+					return { ...download };
+				}) ?? [],
+		});
+	};
+
 	if (isSpaceLoading)
 		return (
 			<SpaceLoader
@@ -233,6 +242,8 @@ export function TokenGateUnlock({ id: spaceId }: Props) {
 			fontColor={space.branding?.fontColor}
 			primaryColor={space.branding?.primaryColor}
 			secondaryColor={space.branding?.secondaryColor}
+			files={downloadedFiles?.data ?? []}
+			downloadFiles={downloadAllFiles}
 			// onPrimaryInteractionClick={handleSuccessCTAClick}
 			// onSecondaryInteractionClick={handleSecondarySuccessCTAClick}
 		/>

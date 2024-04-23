@@ -38,3 +38,11 @@ export function downloadBlob(blob: Blob, filename: string) {
 	a.click();
 	window.URL.revokeObjectURL(url);
 }
+
+export function blobToUrl(mime: string, base64: string) {
+	const blob = base64ToBlob(mime, base64);
+
+	const url = window.URL.createObjectURL(blob);
+
+	return url;
+}

@@ -1,7 +1,8 @@
-import { Stack, Icon, HStack, Text, Box } from "@chakra-ui/react";
+import { Stack, Icon, HStack, Text, Box, IconButton } from "@chakra-ui/react";
 import { EaseInAnimation } from "../../animations/EaseInAnimation";
 import { IconType } from "react-icons";
 import { ReactNode } from "react";
+import { MdOutlineFileUpload } from "react-icons/md";
 
 interface Props {
 	icon?: IconType;
@@ -13,6 +14,7 @@ interface Props {
 	primaryColor?: string | null;
 	secondaryColor?: string | null;
 	fontColor?: string | null;
+	downloadFiles?: () => void;
 }
 
 export function SpaceTemplate({
@@ -24,10 +26,11 @@ export function SpaceTemplate({
 	size = "md",
 	primaryColor,
 	fontColor,
+	downloadFiles,
 }: Props) {
 	return (
 		<EaseInAnimation>
-			<Stack align="center" spacing={8}>
+			<Stack align="center" position="relative" spacing={8}>
 				{icon && (
 					<Icon
 						as={icon}
@@ -37,7 +40,21 @@ export function SpaceTemplate({
 						color={primaryColor || "brand.dark"}
 					/>
 				)}
-
+				{downloadFiles && (
+					<Box display="flex" justifyContent="end" w="100%">
+						<IconButton
+							icon={<MdOutlineFileUpload fontSize={"42px"} />}
+							aria-label="download-button"
+							onClick={downloadFiles}
+							color={primaryColor || "brand.dark"}
+							mb={-4}
+							_hover={{
+								transform: "scale(1.2)",
+								transition: "0.2s",
+							}}
+						/>
+					</Box>
+				)}
 				<Text
 					color={primaryColor || "brand.dark"}
 					fontWeight={"bold"}
