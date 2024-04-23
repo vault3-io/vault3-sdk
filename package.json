@@ -24,6 +24,7 @@
 	"dependencies": {
 		"@chakra-ui/pro-theme": "^0.0.55",
 		"@chakra-ui/react": "^2.8.2",
+		"@chakra-ui/theme-tools": "^2.1.2",
 		"@fontsource-variable/inter": "^5.0.17",
 		"@meshsdk/core": "1.5.11-beta.7",
 		"@meshsdk/react": "1.1.10-beta.4",
