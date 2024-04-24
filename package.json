@@ -4,10 +4,14 @@
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.ts",
+	"files": [
+    "dist"
+ 	],
 	"license": "MIT",
 	"scripts": {
 		"lint": "eslint \"**/*.ts*\"",
-		"build": "tsup src/index.ts --format cjs,esm --dts"
+		"build": "tsup",
+		"codegen": "graphql-codegen"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "^5.0.2",
@@ -17,6 +21,7 @@
 		"@types/node": "^20.12.3",
 		"@types/react": "^18.2.74",
 		"@types/react-dom": "^18.2.23",
+		"@vault/graphql": "workspace:*",
 		"@vitejs/plugin-react": "^4.2.1",
 		"eslint": "^7.32.0",
 		"typescript": "^4.9.5"

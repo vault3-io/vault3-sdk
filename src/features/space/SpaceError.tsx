@@ -11,8 +11,8 @@ export function SpaceError({ primaryColor, fontColor }: SpaceErrorProps) {
 	return (
 		<SpaceTemplate
 			icon={BiBug}
-			title="We couldn't find any space for this access link"
-			description="Make sure you used the right URL or get in touch with the creator."
+			title="Something went wrong"
+			description="Get in touch with the creator and try again later."
 			primaryColor={primaryColor}
 			fontColor={fontColor}
 		/>

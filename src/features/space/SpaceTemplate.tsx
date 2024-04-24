@@ -1,8 +1,16 @@
-import { Stack, Icon, HStack, Text, Box, IconButton } from "@chakra-ui/react";
+import {
+	Stack,
+	Icon,
+	HStack,
+	Text,
+	Box,
+	IconButton,
+	Tooltip,
+} from "@chakra-ui/react";
 import { EaseInAnimation } from "../../animations/EaseInAnimation";
 import { IconType } from "react-icons";
 import { ReactNode } from "react";
-import { MdOutlineFileUpload } from "react-icons/md";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 interface Props {
 	icon?: IconType;
@@ -40,31 +48,35 @@ export function SpaceTemplate({
 						color={primaryColor || "brand.dark"}
 					/>
 				)}
-				{downloadFiles && (
-					<Box display="flex" justifyContent="end" w="100%">
-						<IconButton
-							icon={<MdOutlineFileUpload fontSize={"42px"} />}
-							aria-label="download-button"
-							onClick={downloadFiles}
-							color={primaryColor || "brand.dark"}
-							mb={-4}
-							_hover={{
-								transform: "scale(1.2)",
-								transition: "0.2s",
-							}}
-						/>
-					</Box>
-				)}
-				<Text
-					color={primaryColor || "brand.dark"}
-					fontWeight={"bold"}
-					fontSize={size === "lg" ? "3xl" : "2xl"}
-					lineHeight={1.25}
-					textAlign={"center"}
-					px={{ base: 6, "2xl": 0 }}
-				>
-					{title}
-				</Text>
+				<HStack spacing={2} alignItems="center">
+					<Text
+						color={primaryColor || "brand.dark"}
+						fontWeight={"bold"}
+						fontSize={size === "lg" ? "3xl" : "2xl"}
+						lineHeight={1.25}
+						textAlign={"center"}
+						px={{ base: 6, "2xl": 0 }}
+					>
+						{title}
+					</Text>
+					{downloadFiles && (
+						<Tooltip label="Download" placement="top" hasArrow>
+							<IconButton
+								icon={
+									<MdOutlineFileDownload fontSize={"42px"} />
+								}
+								aria-label="download-button"
+								onClick={downloadFiles}
+								color={primaryColor || "brand.dark"}
+								backgroundColor="transparent"
+								_hover={{
+									transform: "scale(1.2)",
+									transition: "0.2s",
+								}}
+							/>
+						</Tooltip>
+					)}
+				</HStack>
 
 				{children}
 
