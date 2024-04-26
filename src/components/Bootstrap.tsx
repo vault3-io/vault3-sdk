@@ -5,6 +5,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import theme from "../theme";
 import { AppProvider } from "./AppProvider";
+import { PropsWithChildren } from "react";
+
+interface Props extends PropsWithChildren {
+	config: {
+		tenant: string;
+		token: string;
+	};
+}
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -14,7 +22,7 @@ const queryClient = new QueryClient({
 	},
 });
 
-export function Bootstrap({ children }: { children: React.ReactNode }) {
+export function Bootstrap({ config: { tenant, token }, children }: Props) {
 	return (
 		<ChakraProvider theme={theme}>
 			<QueryClientProvider client={queryClient}>

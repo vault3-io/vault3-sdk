@@ -47,7 +47,11 @@ export function WalletConnect(props: any) {
 
 	return (
 		<>
-			<Box hidden={connected && !isSignedIn} mt="4">
+			<Box
+				hidden={connected && !isSignedIn}
+				mt="4"
+				sx={cardanoWalletStyles}
+			>
 				<CardanoWallet
 					onConnected={() => signMessage.mutate()}
 					{...props}
@@ -70,3 +74,59 @@ export function WalletConnect(props: any) {
 		</>
 	);
 }
+
+const cardanoWalletStyles = {
+	".mr-wallet-button": {
+		borderColor: "transparent",
+		borderRadius: "1rem !important",
+		background: "#5e17eb !important",
+		backdropFilter: "blur(7px)",
+		fontSize: "20px !important",
+		transition: "0.3s",
+		height: "3.5rem !important",
+		width: "16rem !important",
+		color: "white !important",
+
+		"&:hover": {
+			background: "rgba(94, 23, 235, 0.5) !important",
+		},
+	},
+
+	".mr-menu-list": {
+		borderColor: "transparent",
+		background: "rgba(94, 23, 235, 0.1) !important",
+		borderRadius: "15px !important",
+		backdropFilter: "blur(7px) !important",
+		color: "white !important",
+
+		".EGDgF": {
+			backdropFilter: "blur(7px) !important",
+			background: "rgba(255, 255, 255, 0.08)",
+
+			"&:hover": {
+				background: "rgba(94, 23, 235, 0.1) !important",
+				color: "#5e17eb !important",
+
+				".mr-menu-item": {
+					color: "#5e17eb !important",
+				},
+			},
+
+			"&:first-child": {
+				borderRadius: "15px 15px 0 0 !important",
+			},
+
+			"&:last-child": {
+				borderRadius: "0 0 15px 15px !important",
+			},
+		},
+	},
+
+	".mr-menu-item": {
+		color: "#222222 !important",
+
+		"&:hover": {
+			color: "#5e17eb !important",
+		},
+	},
+};

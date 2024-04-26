@@ -17,7 +17,7 @@ export default function Vault3Spinner({
 		<Stack alignSelf="center" {...props}>
 			<Box animation={animation} alignSelf="center">
 				<img
-					src={`/assets/vault3_icon_${color}.svg`}
+					src={`https://vault3.io/assets/vault3_icon_${color}.svg`}
 					alt="VAULT3 icon"
 					width={80}
 					height={80}
