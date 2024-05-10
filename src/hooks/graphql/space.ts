@@ -9,18 +9,19 @@ import { graphQLClient } from "../../utils/graphql";
 import {
 	CreateSpaceMutation,
 	CreateSpaceMutationVariables,
-	AssignWhitelistAccessConditionMutation,
-	AssignWhitelistAccessConditionMutationVariables,
-	AssignAssetOwnerAccessConditionMutation,
-	AssignAssetOwnerAccessConditionMutationVariables,
-	AssignPoolDelegationAccessConditionMutation,
-	AssignPoolDelegationAccessConditionMutationVariables,
 	SpaceOverviewQuery,
 	UpdateSpaceBrandingMutationVariables,
 	UpdateSpaceBrandingMutation,
-	SpaceListQuery,
 } from "../../generated/graphql";
-import { RequestDocument } from "graphql-request";
+import {
+	CreateWhitelistAccessConditionMutation,
+	CreateWhitelistAccessConditionMutationVariables,
+	CreateAssetOwnerAccessConditionMutation,
+	CreateAssetOwnerAccessConditionMutationVariables,
+	CreatePoolDelegationAccessConditionMutation,
+	CreatePoolDelegationAccessConditionMutationVariables,
+	SpaceListQuery,
+} from "../../../generated/graphql";
 
 export const querySpaceOverviewById = graphql(`
 	query SpaceOverview($id: String!) {
@@ -64,9 +65,11 @@ export const querySpaceList = graphql(`
 			isActive
 			createdAt
 			slug
-			accessConditions {
-				id
-				type
+			spaceAccessConditions {
+				accessCondition {
+					id
+					type
+				}
 			}
 		}
 	}
@@ -197,56 +200,49 @@ export function useMutationUpdateSpaceBranding(
 	return { ...mutation, space: mutation.data };
 }
 
-export const mutationAssignWhitelistAccessCondition = graphql(`
-	mutation AssignWhitelistAccessCondition(
-		$spaceId: String!
+export const mutationCreateWhitelistAccessCondition = graphql(`
+	mutation CreateWhitelistAccessCondition(
 		$name: String!
 		$allow: [String!]!
 	) {
-		assignWhitelistAccessCondition(
-			spaceId: $spaceId
-			name: $name
-			allow: $allow
-		) {
+		createWhitelistAccessCondition(name: $name, allow: $allow) {
 			id
 		}
 	}
 `);
 
-export function useMutationAssignWhitelistAccessCondition(
+export function useMutationCreateWhitelistAccessCondition(
 	options?: UseMutationOptions<
-		AssignWhitelistAccessConditionMutation["assignWhitelistAccessCondition"],
+		CreateWhitelistAccessConditionMutation["createWhitelistAccessCondition"],
 		unknown,
-		AssignWhitelistAccessConditionMutationVariables
+		CreateWhitelistAccessConditionMutationVariables
 	>
 ) {
 	const mutation = useMutation<
-		AssignWhitelistAccessConditionMutation["assignWhitelistAccessCondition"],
+		CreateWhitelistAccessConditionMutation["createWhitelistAccessCondition"],
 		unknown,
-		AssignWhitelistAccessConditionMutationVariables
+		CreateWhitelistAccessConditionMutationVariables
 	>({
 		mutationFn: async (data) =>
 			(
 				await graphQLClient.request(
-					mutationAssignWhitelistAccessCondition,
+					mutationCreateWhitelistAccessCondition,
 					data
 				)
-			).assignWhitelistAccessCondition,
+			).createWhitelistAccessCondition,
 		...options,
 	});
 	return { ...mutation, policy: mutation.data };
 }
 
-export const mutationAssignAssetOwnerAccessCondition = graphql(`
-	mutation AssignAssetOwnerAccessCondition(
-		$spaceId: String!
+export const mutationCreateAssetOwnerAccessCondition = graphql(`
+	mutation CreateAssetOwnerAccessCondition(
 		$name: String!
 		$policyId: String!
 		$minAmount: Int!
 		$assetFingerprint: String!
 	) {
-		assignAssetOwnerAccessCondition(
-			spaceId: $spaceId
+		createAssetOwnerAccessCondition(
 			name: $name
 			policyId: $policyId
 			minAmount: $minAmount
@@ -257,40 +253,38 @@ export const mutationAssignAssetOwnerAccessCondition = graphql(`
 	}
 `);
 
-export function useMutationAssignAssetOwnerAccessCondition(
+export function useMutationCreateAssetOwnerAccessCondition(
 	options?: UseMutationOptions<
-		AssignAssetOwnerAccessConditionMutation["assignAssetOwnerAccessCondition"],
+		CreateAssetOwnerAccessConditionMutation["createAssetOwnerAccessCondition"],
 		unknown,
-		AssignAssetOwnerAccessConditionMutationVariables
+		CreateAssetOwnerAccessConditionMutationVariables
 	>
 ) {
 	const mutation = useMutation<
-		AssignAssetOwnerAccessConditionMutation["assignAssetOwnerAccessCondition"],
+		CreateAssetOwnerAccessConditionMutation["createAssetOwnerAccessCondition"],
 		unknown,
-		AssignAssetOwnerAccessConditionMutationVariables
+		CreateAssetOwnerAccessConditionMutationVariables
 	>({
 		mutationFn: async (data) =>
 			(
 				await graphQLClient.request(
-					mutationAssignAssetOwnerAccessCondition,
+					mutationCreateAssetOwnerAccessCondition,
 					data
 				)
-			).assignAssetOwnerAccessCondition,
+			).createAssetOwnerAccessCondition,
 		...options,
 	});
 	return { ...mutation, policy: mutation.data };
 }
 
-export const mutationAssignPoolDelegationAccessCondition = graphql(`
-	mutation AssignPoolDelegationAccessCondition(
-		$spaceId: String!
+export const mutationCreatePoolDelegationAccessCondition = graphql(`
+	mutation CreatePoolDelegationAccessCondition(
 		$name: String!
 		$poolId: String!
 		$minEpochs: Int!
 		$minDelegation: Int!
 	) {
-		assignPoolDelegationAccessCondition(
-			spaceId: $spaceId
+		createPoolDelegationAccessCondition(
 			name: $name
 			poolId: $poolId
 			minEpochs: $minEpochs
@@ -301,25 +295,25 @@ export const mutationAssignPoolDelegationAccessCondition = graphql(`
 	}
 `);
 
-export function useMutationAssignPoolDelegationAccessCondition(
+export function useMutationCreatePoolDelegationAccessCondition(
 	options?: UseMutationOptions<
-		AssignPoolDelegationAccessConditionMutation["assignPoolDelegationAccessCondition"],
+		CreatePoolDelegationAccessConditionMutation["createPoolDelegationAccessCondition"],
 		unknown,
-		AssignPoolDelegationAccessConditionMutationVariables
+		CreatePoolDelegationAccessConditionMutationVariables
 	>
 ) {
 	const mutation = useMutation<
-		AssignPoolDelegationAccessConditionMutation["assignPoolDelegationAccessCondition"],
+		CreatePoolDelegationAccessConditionMutation["createPoolDelegationAccessCondition"],
 		unknown,
-		AssignPoolDelegationAccessConditionMutationVariables
+		CreatePoolDelegationAccessConditionMutationVariables
 	>({
 		mutationFn: async (data) =>
 			(
 				await graphQLClient.request(
-					mutationAssignPoolDelegationAccessCondition,
+					mutationCreatePoolDelegationAccessCondition,
 					data
 				)
-			).assignPoolDelegationAccessCondition,
+			).createPoolDelegationAccessCondition,
 		...options,
 	});
 	return { ...mutation, policy: mutation.data };
