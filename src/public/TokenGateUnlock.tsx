@@ -19,7 +19,7 @@ import {
 	useQuerySpaceOverviewById,
 } from "../hooks";
 import { useMutation } from "@tanstack/react-query";
-import { DecryptedFile, InteractionActionType } from "../generated/graphql";
+import { DecryptedFile, InteractionActionType } from "../../generated/graphql";
 import { base64ToBlob, base64ToFile, downloadBlob } from "../utils/io";
 import { ZipWriter, BlobWriter, BlobReader } from "@zip.js/zip.js";
 import { SpaceDocumentsSlider } from "../features/space/SpaceDocumentsSlider";

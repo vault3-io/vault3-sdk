@@ -28,13 +28,9 @@ export type AccessCondition = {
   createdAt: Scalars['DateTime']['output'];
   creator: User;
   creatorId: Scalars['String']['output'];
-  form?: Maybe<Form>;
-  formId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   poolDelegationSettings?: Maybe<AccessConditionPoolDelegationSettings>;
-  space?: Maybe<Space>;
-  spaceId?: Maybe<Scalars['String']['output']>;
   type: AccessConditionType;
   updatedAt: Scalars['DateTime']['output'];
   whitelistSettings?: Maybe<AccessConditionWhitelistSettings>;
@@ -179,46 +175,34 @@ export enum InteractionActionType {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  assignAssetOwnerAccessCondition: AccessCondition;
-  assignPoolDelegationAccessCondition: AccessCondition;
-  assignWhitelistAccessCondition: AccessCondition;
+  createAssetOwnerAccessCondition: AccessCondition;
   createFile: File;
   createFormEntry: FormEntry;
+  createPoolDelegationAccessCondition: AccessCondition;
   createSession: Session;
   createSpace: Space;
   createUser: User;
+  createWhitelistAccessCondition: AccessCondition;
   deleteFile: File;
   deleteSpace: Space;
   deleteSpaceAccessCondition: AccessCondition;
   registerInteraction: Interaction;
+  spaceLinkAccessCondition: SpaceAccessCondition;
+  spaceUnlinkAccessCondition: SpaceAccessCondition;
+  updateAssetOwnerAccessCondition: AccessCondition;
   updateFile: File;
+  updatePoolDelegationAccessCondition: AccessCondition;
   updateSpace: Space;
   updateSpaceBranding: Space;
+  updateWhitelistAccessCondition: AccessCondition;
 };
 
 
-export type MutationAssignAssetOwnerAccessConditionArgs = {
+export type MutationCreateAssetOwnerAccessConditionArgs = {
   assetFingerprint: Scalars['String']['input'];
   minAmount: Scalars['Int']['input'];
   name: Scalars['String']['input'];
   policyId: Scalars['String']['input'];
-  spaceId: Scalars['String']['input'];
-};
-
-
-export type MutationAssignPoolDelegationAccessConditionArgs = {
-  minDelegation: Scalars['Int']['input'];
-  minEpochs: Scalars['Int']['input'];
-  name: Scalars['String']['input'];
-  poolId: Scalars['String']['input'];
-  spaceId: Scalars['String']['input'];
-};
-
-
-export type MutationAssignWhitelistAccessConditionArgs = {
-  allow: Array<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  spaceId: Scalars['String']['input'];
 };
 
 
@@ -233,6 +217,14 @@ export type MutationCreateFileArgs = {
 export type MutationCreateFormEntryArgs = {
   formId: Scalars['String']['input'];
   values: Scalars['JSONObject']['input'];
+};
+
+
+export type MutationCreatePoolDelegationAccessConditionArgs = {
+  minDelegation: Scalars['Int']['input'];
+  minEpochs: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  poolId: Scalars['String']['input'];
 };
 
 
@@ -253,6 +245,12 @@ export type MutationCreateSpaceArgs = {
 
 export type MutationCreateUserArgs = {
   address: Scalars['String']['input'];
+};
+
+
+export type MutationCreateWhitelistAccessConditionArgs = {
+  allow: Array<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 
@@ -278,9 +276,39 @@ export type MutationRegisterInteractionArgs = {
 };
 
 
+export type MutationSpaceLinkAccessConditionArgs = {
+  accessConditionId: Scalars['String']['input'];
+  spaceId: Scalars['String']['input'];
+};
+
+
+export type MutationSpaceUnlinkAccessConditionArgs = {
+  accessConditionId: Scalars['String']['input'];
+  spaceId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateAssetOwnerAccessConditionArgs = {
+  assetFingerprint?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  minAmount?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  policyId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type MutationUpdateFileArgs = {
   id: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdatePoolDelegationAccessConditionArgs = {
+  id: Scalars['String']['input'];
+  minDelegation?: InputMaybe<Scalars['Int']['input']>;
+  minEpochs?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  poolId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -319,8 +347,18 @@ export type MutationUpdateSpaceBrandingArgs = {
   youtube?: InputMaybe<Scalars['String']['input']>;
 };
 
+
+export type MutationUpdateWhitelistAccessConditionArgs = {
+  allow?: InputMaybe<Array<Scalars['String']['input']>>;
+  id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  accessConditionById?: Maybe<AccessCondition>;
+  accessConditionByName?: Maybe<AccessCondition>;
+  accessConditions: Array<AccessCondition>;
   checkFormEntryConditions: Scalars['Boolean']['output'];
   downloadFile: DecryptedFile;
   fileById?: Maybe<File>;
@@ -330,10 +368,19 @@ export type Query = {
   formEntriesByFormId?: Maybe<Array<FormEntry>>;
   me: User;
   signatureChallenge: SignatureChallengeResponse;
-  spaceAccessConditionById?: Maybe<AccessCondition>;
   spaceById?: Maybe<Space>;
   spaceSlugAvailable: Scalars['Boolean']['output'];
   spaces: Array<Space>;
+};
+
+
+export type QueryAccessConditionByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryAccessConditionByNameArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -372,11 +419,6 @@ export type QuerySignatureChallengeArgs = {
 };
 
 
-export type QuerySpaceAccessConditionByIdArgs = {
-  id: Scalars['String']['input'];
-};
-
-
 export type QuerySpaceByIdArgs = {
   id: Scalars['String']['input'];
 };
@@ -405,8 +447,6 @@ export type SignatureChallengeResponse = {
 
 export type Space = {
   __typename?: 'Space';
-  /** AccessConditions used for authenticate users to the space */
-  accessConditions: Array<AccessCondition>;
   branding?: Maybe<BrandingSettings>;
   createdAt: Scalars['DateTime']['output'];
   creator: User;
@@ -420,7 +460,16 @@ export type Space = {
   /** Name of the space */
   name: Scalars['String']['output'];
   slug?: Maybe<Scalars['String']['output']>;
+  /** AccessConditions used for authenticate users to the space */
+  spaceAccessConditions: Array<SpaceAccessCondition>;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type SpaceAccessCondition = {
+  __typename?: 'SpaceAccessCondition';
+  accessCondition: AccessCondition;
+  id: Scalars['ID']['output'];
+  space: Space;
 };
 
 export type User = {
@@ -513,16 +562,17 @@ export type SpaceOverviewQueryVariables = Exact<{
 }>;
 
 
-export type SpaceOverviewQuery = { __typename?: 'Query', spaceById?: { __typename?: 'Space', name: string, description: string, isActive: boolean, branding?: { __typename?: 'BrandingSettings', backgroundColor?: string | null, fontColor?: string | null, primaryColor?: string | null, secondaryColor?: string | null, logoFileContent?: string | null, logoFileMime?: string | null, logoFileName?: string | null, failureCallToActionButtonText?: string | null, failureCallToActionText?: string | null, failureCallToActionURL?: string | null, successCallToActionButtonText?: string | null, successCallToActionText?: string | null, successCallToActionURL?: string | null, secondaryFailureCallToActionButtonText?: string | null, secondaryFailureCallToActionURL?: string | null, secondarySuccessCallToActionButtonText?: string | null, secondarySuccessCallToActionURL?: string | null, x?: string | null, discord?: string | null, telegram?: string | null, youtube?: string | null, websiteURL?: string | null } | null } | null };
+export type SpaceOverviewQuery = { __typename?: 'Query', spaceById?: { __typename?: 'Space', name: string, description: string, slug?: string | null, isActive: boolean, branding?: { __typename?: 'BrandingSettings', backgroundColor?: string | null, fontColor?: string | null, primaryColor?: string | null, secondaryColor?: string | null, logoFileContent?: string | null, logoFileMime?: string | null, logoFileName?: string | null, failureCallToActionButtonText?: string | null, failureCallToActionText?: string | null, failureCallToActionURL?: string | null, successCallToActionButtonText?: string | null, successCallToActionText?: string | null, successCallToActionURL?: string | null, secondaryFailureCallToActionButtonText?: string | null, secondaryFailureCallToActionURL?: string | null, secondarySuccessCallToActionButtonText?: string | null, secondarySuccessCallToActionURL?: string | null, x?: string | null, discord?: string | null, telegram?: string | null, youtube?: string | null, websiteURL?: string | null } | null } | null };
 
 export type SpaceListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SpaceListQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'Space', id: string, name: string, isActive: boolean, createdAt: any, slug?: string | null, accessConditions: Array<{ __typename?: 'AccessCondition', id: string, type: AccessConditionType }> }> };
+export type SpaceListQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'Space', id: string, name: string, isActive: boolean, createdAt: any, slug?: string | null, spaceAccessConditions: Array<{ __typename?: 'SpaceAccessCondition', accessCondition: { __typename?: 'AccessCondition', id: string, type: AccessConditionType } }> }> };
 
 export type CreateSpaceMutationVariables = Exact<{
   name: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -558,16 +608,14 @@ export type UpdateSpaceBrandingMutationVariables = Exact<{
 export type UpdateSpaceBrandingMutation = { __typename?: 'Mutation', updateSpaceBranding: { __typename?: 'Space', id: string } };
 
 export type AssignWhitelistAccessConditionMutationVariables = Exact<{
-  spaceId: Scalars['String']['input'];
   name: Scalars['String']['input'];
   allow: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type AssignWhitelistAccessConditionMutation = { __typename?: 'Mutation', assignWhitelistAccessCondition: { __typename?: 'AccessCondition', id: string } };
+export type AssignWhitelistAccessConditionMutation = { __typename?: 'Mutation', createWhitelistAccessCondition: { __typename?: 'AccessCondition', id: string } };
 
 export type AssignAssetOwnerAccessConditionMutationVariables = Exact<{
-  spaceId: Scalars['String']['input'];
   name: Scalars['String']['input'];
   policyId: Scalars['String']['input'];
   minAmount: Scalars['Int']['input'];
@@ -575,10 +623,9 @@ export type AssignAssetOwnerAccessConditionMutationVariables = Exact<{
 }>;
 
 
-export type AssignAssetOwnerAccessConditionMutation = { __typename?: 'Mutation', assignAssetOwnerAccessCondition: { __typename?: 'AccessCondition', id: string } };
+export type AssignAssetOwnerAccessConditionMutation = { __typename?: 'Mutation', createAssetOwnerAccessCondition: { __typename?: 'AccessCondition', id: string } };
 
 export type AssignPoolDelegationAccessConditionMutationVariables = Exact<{
-  spaceId: Scalars['String']['input'];
   name: Scalars['String']['input'];
   poolId: Scalars['String']['input'];
   minEpochs: Scalars['Int']['input'];
@@ -586,7 +633,7 @@ export type AssignPoolDelegationAccessConditionMutationVariables = Exact<{
 }>;
 
 
-export type AssignPoolDelegationAccessConditionMutation = { __typename?: 'Mutation', assignPoolDelegationAccessCondition: { __typename?: 'AccessCondition', id: string } };
+export type AssignPoolDelegationAccessConditionMutation = { __typename?: 'Mutation', createPoolDelegationAccessCondition: { __typename?: 'AccessCondition', id: string } };
 
 
 export const SignatureChallengeForAddressDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignatureChallengeForAddress"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"address"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signatureChallenge"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"address"},"value":{"kind":"Variable","name":{"kind":"Name","value":"address"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<SignatureChallengeForAddressQuery, SignatureChallengeForAddressQueryVariables>;
@@ -599,10 +646,10 @@ export const FormOverviewDocument = {"kind":"Document","definitions":[{"kind":"O
 export const CreateFormEntryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateFormEntry"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"values"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createFormEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"formId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formId"}}},{"kind":"Argument","name":{"kind":"Name","value":"values"},"value":{"kind":"Variable","name":{"kind":"Name","value":"values"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateFormEntryMutation, CreateFormEntryMutationVariables>;
 export const CheckFormEntryConditionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CheckFormEntryConditions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"formId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"checkFormEntryConditions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"formId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"formId"}}}]}]}}]} as unknown as DocumentNode<CheckFormEntryConditionsQuery, CheckFormEntryConditionsQueryVariables>;
 export const RegisterInteractionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterInteraction"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"action"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"InteractionActionType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"topic"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"event"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerInteraction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"action"},"value":{"kind":"Variable","name":{"kind":"Name","value":"action"}}},{"kind":"Argument","name":{"kind":"Name","value":"topic"},"value":{"kind":"Variable","name":{"kind":"Name","value":"topic"}}},{"kind":"Argument","name":{"kind":"Name","value":"event"},"value":{"kind":"Variable","name":{"kind":"Name","value":"event"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<RegisterInteractionMutation, RegisterInteractionMutationVariables>;
-export const SpaceOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SpaceOverview"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"spaceById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"branding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"backgroundColor"}},{"kind":"Field","name":{"kind":"Name","value":"fontColor"}},{"kind":"Field","name":{"kind":"Name","value":"primaryColor"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryColor"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileContent"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileMime"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileName"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionText"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionText"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryFailureCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryFailureCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"secondarySuccessCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"secondarySuccessCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"discord"}},{"kind":"Field","name":{"kind":"Name","value":"telegram"}},{"kind":"Field","name":{"kind":"Name","value":"youtube"}},{"kind":"Field","name":{"kind":"Name","value":"websiteURL"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<SpaceOverviewQuery, SpaceOverviewQueryVariables>;
-export const SpaceListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SpaceList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"spaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"accessConditions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]}}]} as unknown as DocumentNode<SpaceListQuery, SpaceListQueryVariables>;
-export const CreateSpaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateSpace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"description"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createSpace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"description"},"value":{"kind":"Variable","name":{"kind":"Name","value":"description"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateSpaceMutation, CreateSpaceMutationVariables>;
+export const SpaceOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SpaceOverview"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"spaceById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"branding"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"backgroundColor"}},{"kind":"Field","name":{"kind":"Name","value":"fontColor"}},{"kind":"Field","name":{"kind":"Name","value":"primaryColor"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryColor"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileContent"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileMime"}},{"kind":"Field","name":{"kind":"Name","value":"logoFileName"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionText"}},{"kind":"Field","name":{"kind":"Name","value":"failureCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionText"}},{"kind":"Field","name":{"kind":"Name","value":"successCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryFailureCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryFailureCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"secondarySuccessCallToActionButtonText"}},{"kind":"Field","name":{"kind":"Name","value":"secondarySuccessCallToActionURL"}},{"kind":"Field","name":{"kind":"Name","value":"x"}},{"kind":"Field","name":{"kind":"Name","value":"discord"}},{"kind":"Field","name":{"kind":"Name","value":"telegram"}},{"kind":"Field","name":{"kind":"Name","value":"youtube"}},{"kind":"Field","name":{"kind":"Name","value":"websiteURL"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<SpaceOverviewQuery, SpaceOverviewQueryVariables>;
+export const SpaceListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SpaceList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"spaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"spaceAccessConditions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessCondition"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]}}]}}]} as unknown as DocumentNode<SpaceListQuery, SpaceListQueryVariables>;
+export const CreateSpaceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateSpace"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"description"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createSpace"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"description"},"value":{"kind":"Variable","name":{"kind":"Name","value":"description"}}},{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateSpaceMutation, CreateSpaceMutationVariables>;
 export const UpdateSpaceBrandingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateSpaceBranding"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"logoFileContent"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"logoFileName"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"logoFileMime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"websiteURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"backgroundColor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fontColor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"primaryColor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"secondaryColor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"x"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"discord"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"telegram"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"youtube"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionButtonText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionButtonText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"secondaryFailureCallToActionButtonText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"secondaryFailureCallToActionURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"secondarySuccessCallToActionButtonText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"secondarySuccessCallToActionURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateSpaceBranding"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"logoFileContent"},"value":{"kind":"Variable","name":{"kind":"Name","value":"logoFileContent"}}},{"kind":"Argument","name":{"kind":"Name","value":"logoFileName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"logoFileName"}}},{"kind":"Argument","name":{"kind":"Name","value":"logoFileMime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"logoFileMime"}}},{"kind":"Argument","name":{"kind":"Name","value":"websiteURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"websiteURL"}}},{"kind":"Argument","name":{"kind":"Name","value":"backgroundColor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"backgroundColor"}}},{"kind":"Argument","name":{"kind":"Name","value":"fontColor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fontColor"}}},{"kind":"Argument","name":{"kind":"Name","value":"primaryColor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"primaryColor"}}},{"kind":"Argument","name":{"kind":"Name","value":"secondaryColor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"secondaryColor"}}},{"kind":"Argument","name":{"kind":"Name","value":"x"},"value":{"kind":"Variable","name":{"kind":"Name","value":"x"}}},{"kind":"Argument","name":{"kind":"Name","value":"discord"},"value":{"kind":"Variable","name":{"kind":"Name","value":"discord"}}},{"kind":"Argument","name":{"kind":"Name","value":"telegram"},"value":{"kind":"Variable","name":{"kind":"Name","value":"telegram"}}},{"kind":"Argument","name":{"kind":"Name","value":"youtube"},"value":{"kind":"Variable","name":{"kind":"Name","value":"youtube"}}},{"kind":"Argument","name":{"kind":"Name","value":"failureCallToActionButtonText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionButtonText"}}},{"kind":"Argument","name":{"kind":"Name","value":"failureCallToActionText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionText"}}},{"kind":"Argument","name":{"kind":"Name","value":"failureCallToActionURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"failureCallToActionURL"}}},{"kind":"Argument","name":{"kind":"Name","value":"successCallToActionButtonText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionButtonText"}}},{"kind":"Argument","name":{"kind":"Name","value":"successCallToActionText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionText"}}},{"kind":"Argument","name":{"kind":"Name","value":"successCallToActionURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"successCallToActionURL"}}},{"kind":"Argument","name":{"kind":"Name","value":"secondaryFailureCallToActionButtonText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"secondaryFailureCallToActionButtonText"}}},{"kind":"Argument","name":{"kind":"Name","value":"secondaryFailureCallToActionURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"secondaryFailureCallToActionURL"}}},{"kind":"Argument","name":{"kind":"Name","value":"secondarySuccessCallToActionButtonText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"secondarySuccessCallToActionButtonText"}}},{"kind":"Argument","name":{"kind":"Name","value":"secondarySuccessCallToActionURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"secondarySuccessCallToActionURL"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateSpaceBrandingMutation, UpdateSpaceBrandingMutationVariables>;
-export const AssignWhitelistAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignWhitelistAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"allow"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignWhitelistAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"spaceId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"allow"},"value":{"kind":"Variable","name":{"kind":"Name","value":"allow"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignWhitelistAccessConditionMutation, AssignWhitelistAccessConditionMutationVariables>;
-export const AssignAssetOwnerAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignAssetOwnerAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"policyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minAmount"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"assetFingerprint"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignAssetOwnerAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"spaceId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"policyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"policyId"}}},{"kind":"Argument","name":{"kind":"Name","value":"minAmount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minAmount"}}},{"kind":"Argument","name":{"kind":"Name","value":"assetFingerprint"},"value":{"kind":"Variable","name":{"kind":"Name","value":"assetFingerprint"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignAssetOwnerAccessConditionMutation, AssignAssetOwnerAccessConditionMutationVariables>;
-export const AssignPoolDelegationAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignPoolDelegationAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"poolId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minEpochs"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minDelegation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignPoolDelegationAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"spaceId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"spaceId"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"poolId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"poolId"}}},{"kind":"Argument","name":{"kind":"Name","value":"minEpochs"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minEpochs"}}},{"kind":"Argument","name":{"kind":"Name","value":"minDelegation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minDelegation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignPoolDelegationAccessConditionMutation, AssignPoolDelegationAccessConditionMutationVariables>;
+export const AssignWhitelistAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignWhitelistAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"allow"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createWhitelistAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"allow"},"value":{"kind":"Variable","name":{"kind":"Name","value":"allow"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignWhitelistAccessConditionMutation, AssignWhitelistAccessConditionMutationVariables>;
+export const AssignAssetOwnerAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignAssetOwnerAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"policyId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minAmount"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"assetFingerprint"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAssetOwnerAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"policyId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"policyId"}}},{"kind":"Argument","name":{"kind":"Name","value":"minAmount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minAmount"}}},{"kind":"Argument","name":{"kind":"Name","value":"assetFingerprint"},"value":{"kind":"Variable","name":{"kind":"Name","value":"assetFingerprint"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignAssetOwnerAccessConditionMutation, AssignAssetOwnerAccessConditionMutationVariables>;
+export const AssignPoolDelegationAccessConditionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AssignPoolDelegationAccessCondition"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"poolId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minEpochs"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"minDelegation"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPoolDelegationAccessCondition"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"poolId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"poolId"}}},{"kind":"Argument","name":{"kind":"Name","value":"minEpochs"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minEpochs"}}},{"kind":"Argument","name":{"kind":"Name","value":"minDelegation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"minDelegation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AssignPoolDelegationAccessConditionMutation, AssignPoolDelegationAccessConditionMutationVariables>;

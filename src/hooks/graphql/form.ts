@@ -4,14 +4,14 @@ import {
 	useMutation,
 	useQuery,
 } from "@tanstack/react-query";
-import { graphql } from "../../generated";
+import { graphql } from "../../../generated";
 import { graphQLClient } from "../../utils/graphql";
 import {
 	FormOverviewQuery,
 	CheckFormEntryConditionsQuery,
 	CreateFormEntryMutation,
 	CreateFormEntryMutationVariables,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const queryFormOverviewById = graphql(`
 	query FormOverview($id: String!) {
