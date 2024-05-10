@@ -9,11 +9,6 @@ import { graphQLClient } from "../../utils/graphql";
 import {
 	CreateSpaceMutation,
 	CreateSpaceMutationVariables,
-	SpaceOverviewQuery,
-	UpdateSpaceBrandingMutationVariables,
-	UpdateSpaceBrandingMutation,
-} from "../../generated/graphql";
-import {
 	CreateWhitelistAccessConditionMutation,
 	CreateWhitelistAccessConditionMutationVariables,
 	CreateAssetOwnerAccessConditionMutation,
@@ -21,13 +16,17 @@ import {
 	CreatePoolDelegationAccessConditionMutation,
 	CreatePoolDelegationAccessConditionMutationVariables,
 	SpaceListQuery,
-} from "../../../generated/graphql";
+	SpaceOverviewQuery,
+	UpdateSpaceBrandingMutationVariables,
+	UpdateSpaceBrandingMutation,
+} from "../../generated/graphql";
 
 export const querySpaceOverviewById = graphql(`
 	query SpaceOverview($id: String!) {
 		spaceById(id: $id) {
 			name
 			description
+			slug
 			branding {
 				backgroundColor
 				fontColor
@@ -97,8 +96,8 @@ export function useQuerySpaceOverviewById({
 }
 
 export const mutationCreateSpace = graphql(`
-	mutation CreateSpace($name: String!, $description: String) {
-		createSpace(name: $name, description: $description) {
+	mutation CreateSpace($name: String!, $description: String, $slug: String) {
+		createSpace(name: $name, description: $description, slug: $slug) {
 			id
 		}
 	}

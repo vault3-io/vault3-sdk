@@ -6,7 +6,7 @@ import {
 } from "../../components";
 import { SpaceTemplate } from "./SpaceTemplate";
 import { SpaceDocumentsSlider } from "./SpaceDocumentsSlider";
-import { DownloadFilesFromSpaceQuery } from "../../generated/graphql";
+import { DownloadFilesFromSpaceQuery } from "../../../generated/graphql";
 import { blobToUrl } from "../../utils/io";
 
 interface SpaceAccessGrantedProps {

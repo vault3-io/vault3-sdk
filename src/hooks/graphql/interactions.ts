@@ -1,9 +1,9 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import { graphql } from "../../generated";
+import { graphql } from "../../../generated";
 import {
 	RegisterInteractionMutation,
 	RegisterInteractionMutationVariables,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 import { graphQLClient } from "../../utils/graphql";
 
 export enum InteractionTopicType {

@@ -1,6 +1,6 @@
 import { UseToastOptions } from "@chakra-ui/react";
 
-import { Session, User } from "../generated/graphql";
+import { Session, User } from "../../generated/graphql";
 import { createContext } from "react";
 
 export type AppContextShape = {
