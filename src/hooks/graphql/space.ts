@@ -4,7 +4,7 @@ import {
 	useMutation,
 	useQuery,
 } from "@tanstack/react-query";
-import { graphql } from "../../generated";
+import { graphql } from "../../../generated";
 import { graphQLClient } from "../../utils/graphql";
 import {
 	CreateSpaceMutation,
@@ -19,7 +19,7 @@ import {
 	SpaceOverviewQuery,
 	UpdateSpaceBrandingMutationVariables,
 	UpdateSpaceBrandingMutation,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const querySpaceOverviewById = graphql(`
 	query SpaceOverview($id: String!) {
