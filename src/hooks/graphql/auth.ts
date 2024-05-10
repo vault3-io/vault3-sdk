@@ -5,7 +5,7 @@ import {
 	useQuery,
 } from "@tanstack/react-query";
 
-import { graphql } from "../../generated";
+import { graphql } from "../../../generated";
 import { graphQLClient } from "../../utils/graphql";
 import { useApp } from "../useApp";
 import {
@@ -14,7 +14,7 @@ import {
 	Session,
 	SignatureChallengeForAddressQuery,
 	SignatureChallengeForAddressQueryVariables,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const querySignatureChallenge = graphql(`
 	query SignatureChallengeForAddress($address: String!) {

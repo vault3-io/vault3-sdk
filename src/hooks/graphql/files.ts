@@ -5,7 +5,7 @@ import {
 	useQuery,
 } from "@tanstack/react-query";
 
-import { graphql } from "../../generated";
+import { graphql } from "../../../generated";
 import { graphQLClient } from "../../utils/graphql";
 import {
 	CreateFileMutation,
@@ -13,7 +13,7 @@ import {
 	DownloadFileQuery,
 	DownloadFilesFromSpaceQuery,
 	FilesInSpaceQuery,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const queryFilesInSpace = graphql(`
 	query FilesInSpace($spaceId: String!) {
