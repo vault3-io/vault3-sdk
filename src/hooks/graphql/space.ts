@@ -239,13 +239,13 @@ export const mutationCreateAssetOwnerAccessCondition = graphql(`
 		$name: String!
 		$policyId: String!
 		$minAmount: Int!
-		$assetFingerprint: String!
+		$assetFingerprints: [String!]!
 	) {
 		createAssetOwnerAccessCondition(
 			name: $name
 			policyId: $policyId
 			minAmount: $minAmount
-			assetFingerprint: $assetFingerprint
+			assetFingerprints: $assetFingerprints
 		) {
 			id
 		}
