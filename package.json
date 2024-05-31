@@ -1,31 +1,50 @@
 {
-  "name": "@vault",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "dotenv -- turbo run build",
-    "dev": "dotenv -- turbo run dev",
-    "test": "dotenv -- turbo run test",
-    "lint": "eslint . --ext .ts",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "react": "dotenv -- pnpm --filter=@vault/sdk-react",
-    "sdk": "dotenv -- pnpm --filter=@vault/sdk-core"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "acorn": "^8.11.3",
-    "dotenv-cli": "^7.3.0",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "turbo": "^1.12.4",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.7",
-    "vite-node": "^1.4.0",
-    "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^1.4.0"
-  }
+	"name": "@vault/sdk",
+	"version": "0.0.0",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+    "dist"
+ 	],
+	"license": "MIT",
+	"scripts": {
+		"lint": "eslint \"**/*.ts*\"",
+		"build": "tsup",
+		"codegen": "graphql-codegen"
+	},
+	"devDependencies": {
+		"@graphql-codegen/cli": "^5.0.2",
+		"@graphql-codegen/client-preset": "^4.2.5",
+		"@graphql-typed-document-node/core": "^3.2.0",
+		"@testing-library/react": "^14.2.2",
+		"@types/node": "^20.12.3",
+		"@types/react": "^18.2.74",
+		"@types/react-dom": "^18.2.23",
+		"@vault/graphql": "workspace:*",
+		"@vitejs/plugin-react": "^4.2.1",
+		"eslint": "^7.32.0",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"@chakra-ui/pro-theme": "^0.0.55",
+		"@chakra-ui/react": "^2.8.2",
+		"@chakra-ui/theme-tools": "^2.1.2",
+		"@fontsource-variable/inter": "^5.0.17",
+		"@meshsdk/core": "1.5.11-beta.7",
+		"@meshsdk/react": "1.1.10-beta.4",
+		"@tanstack/react-query": "^4.36.1",
+		"@types/web": "^0.0.138",
+		"@zip.js/zip.js": "^2.7.41",
+		"framer-motion": "^10.18.0",
+		"graphql": "^16.8.1",
+		"graphql-request": "^6.1.0",
+		"keen-slider": "^6.8.6",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-icons": "^4.12.0",
+		"react-intersection-observer": "^9.8.1",
+		"tsup": "^8.0.2",
+		"tus-js-client": "^4.1.0"
+	}
 }
