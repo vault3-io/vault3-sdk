@@ -67,6 +67,7 @@ export const querySpaceList = graphql(`
 			spaceAccessConditions {
 				accessCondition {
 					id
+					name
 					type
 				}
 			}
