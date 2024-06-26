@@ -6,8 +6,8 @@ import {
 } from "../../components";
 import { SpaceTemplate } from "./SpaceTemplate";
 import { SpaceDocumentsSlider } from "./SpaceDocumentsSlider";
-import { DownloadFilesFromSpaceQuery } from "../../../generated/graphql";
-import { blobToUrl } from "../../utils/io";
+import { DownloadFilesFromSpaceQuery } from "generated/graphql";
+import { blobToUrl } from "utils";
 
 interface SpaceAccessGrantedProps {
 	successCallToActionText?: string | null | undefined;
