@@ -3,9 +3,9 @@ import {
 	querySignatureChallenge,
 	useApp,
 	useMutationCreateSession,
-} from "../hooks";
+} from "hooks";
 import { useMutation } from "@tanstack/react-query";
-import { graphQLClient } from "../utils/graphql";
+import { graphQLClient } from "utils/graphql";
 import { Box, Spinner, Stack, Text } from "@chakra-ui/react";
 
 export function WalletConnect(props: any) {

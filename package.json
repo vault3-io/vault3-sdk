@@ -5,8 +5,8 @@
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.ts",
 	"files": [
-    "dist"
- 	],
+		"dist"
+	],
 	"license": "MIT",
 	"scripts": {
 		"lint": "eslint \"**/*.ts*\"",
@@ -21,7 +21,9 @@
 		"@types/node": "^20.12.3",
 		"@types/react": "^18.2.74",
 		"@types/react-dom": "^18.2.23",
+		"@vault/database": "workspace:*",
 		"@vault/graphql": "workspace:*",
+		"@vault/ui": "workspace:*",
 		"@vitejs/plugin-react": "^4.2.1",
 		"eslint": "^7.32.0",
 		"typescript": "^4.9.5"
@@ -30,21 +32,28 @@
 		"@chakra-ui/pro-theme": "^0.0.55",
 		"@chakra-ui/react": "^2.8.2",
 		"@chakra-ui/theme-tools": "^2.1.2",
+		"@cyntler/react-doc-viewer": "^1.15.0",
 		"@fontsource-variable/inter": "^5.0.17",
 		"@meshsdk/core": "1.5.11-beta.7",
 		"@meshsdk/react": "1.1.10-beta.4",
 		"@tanstack/react-query": "^4.36.1",
 		"@types/web": "^0.0.138",
 		"@zip.js/zip.js": "^2.7.41",
+		"chonky": "^2.3.2",
+		"chonky-icon-fontawesome": "^2.3.2",
 		"framer-motion": "^10.18.0",
 		"graphql": "^16.8.1",
 		"graphql-request": "^6.1.0",
+		"@hookform/resolvers": "^3.3.4",
 		"keen-slider": "^6.8.6",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-dropzone": "^14.2.3",
+		"react-hook-form": "^7.51.2",
 		"react-icons": "^4.12.0",
 		"react-intersection-observer": "^9.8.1",
 		"tsup": "^8.0.2",
-		"tus-js-client": "^4.1.0"
+		"tus-js-client": "^4.1.0",
+		"yup": "^1.4.0"
 	}
 }

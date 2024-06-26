@@ -4,16 +4,17 @@ import { motion, useAnimation } from "framer-motion";
 
 interface ShowAnimationProps {
 	delay?: number;
+	duration?: number;
 	children: JSX.Element[] | JSX.Element;
 }
 
 export const EaseInAnimation = (props: ShowAnimationProps) => {
-	const { delay, children } = props;
+	const { delay, children, duration } = props;
 	const componentStatus = {
 		visible: {
 			opacity: 1,
 			transition: {
-				duration: 1,
+				duration: duration ?? 1,
 				ease: "easeInOut",
 				delay: delay ? delay : 0,
 			},

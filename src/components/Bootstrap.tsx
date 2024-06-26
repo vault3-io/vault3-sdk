@@ -4,14 +4,11 @@ import { MeshProvider } from "@meshsdk/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import theme from "../theme";
-import { AppProvider } from "./AppProvider";
+import { AppConfig, AppProvider } from "./AppProvider";
 import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
-	config: {
-		tenant: string;
-		token: string;
-	};
+	config: AppConfig;
 }
 
 const queryClient = new QueryClient({
@@ -22,12 +19,12 @@ const queryClient = new QueryClient({
 	},
 });
 
-export function Bootstrap({ config: { tenant, token }, children }: Props) {
+export function Bootstrap({ config, children }: Props) {
 	return (
 		<ChakraProvider theme={theme}>
 			<QueryClientProvider client={queryClient}>
 				<MeshProvider>
-					<AppProvider>{children}</AppProvider>
+					<AppProvider config={config}>{children}</AppProvider>
 				</MeshProvider>
 			</QueryClientProvider>
 		</ChakraProvider>
